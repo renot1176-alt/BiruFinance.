@@ -37,7 +37,7 @@ jobs:
       - name: Extract source ZIP
         run: |
           mkdir source
-          unzip -o BiruFinance_3.0_Repository_Baru_Siap_GitHub.zip -d source
+          unzip -o BiruFinance_3.1_LiquidGlass_Refined_Source.zip -d source
           find source -name settings.gradle -print
 
       - name: Locate project
