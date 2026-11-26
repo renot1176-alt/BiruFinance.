@@ -37,4 +37,3 @@ jobs:
           name: BiruFinance-3.4.0-debug-APK
           path: source/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-
