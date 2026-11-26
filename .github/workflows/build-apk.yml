@@ -1,39 +1,48 @@
 
-name: Build BiruFinance 3.4.0 APK
+name: Build BiruFinance 3.4.1 APK
 on:
   workflow_dispatch:
-  push:
-    branches: [ main, master ]
+
 permissions:
   contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
         with:
           packages: 'platform-tools'
+
       - name: Install Android SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
-      - name: Extract BiruFinance source
+
+      - name: Extract fixed source ZIP
         run: |
-          unzip -o BiruFinance_3.4.0_QuickAddWidget_2x2_Source.zip -d source
-          test -f source/settings.gradle
-          test -f source/app/build.gradle
+          mkdir -p source
+          unzip -o BiruFinance_3.4.1_QuickAddWidget_Fix_Source.zip -d source
+
       - name: Build debug APK
         run: gradle -p source --no-daemon assembleDebug
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: BiruFinance-3.4.0-debug-APK
+          name: BiruFinance-3.4.1-debug-APK
           path: source/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
